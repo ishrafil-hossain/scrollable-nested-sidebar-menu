@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Scrollable nested sidemenu</title>
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+            }
+
+            .sidebar {
+                width: 270px;
+                height: 458px;
+                background-color: white;
+                color: black;
+                overflow-y: auto;
+                scrollbar-width: none;
+                border-left: 1px solid gainsboro;
+                border-right: 1px solid gainsboro;
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+                    0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+            }
+
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            li {
+                position: relative;
+                padding: 15px;
+                cursor: pointer;
+                border-bottom: 1px solid gainsboro;
+            }
+
+            li:hover {
+                background-color: #e8fcef;
+            }
+
+            .child-menu,
+            .grandchild-menu {
+                position: fixed;
+                left: 270px !important;
+                width: 200px;
+                background-color: white;
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+                    0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+                color: black;
+                display: none;
+                z-index: 10;
+            }
+
+            .child-menu li:hover,
+            .grandchild-menu li:hover {
+                background-color: #e8fcef;
+            }
+
+            .grandchild-menu {
+                left: 470px !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="sidebar">
+            <ul>
+                <li class="parent-item">
+                    Electronics
+                    <ul class="child-menu">
+                        <li class="child-item">
+                            Mobile Phones
+                            <ul class="grandchild-menu">
+                                <li>Apple</li>
+                                <li>Samsung</li>
+                                <li>OnePlus</li>
+                            </ul>
+                        </li>
+                        <li class="child-item">
+                            Laptops
+                            <ul class="grandchild-menu">
+                                <li>MacBooks</li>
+                                <li>Windows Laptops</li>
+                                <li>Gaming Laptops</li>
+                            </ul>
+                        </li>
+                        <li>Televisions</li>
+                    </ul>
+                </li>
+                <li class="parent-item">
+                    Fashion
+                    <ul class="child-menu">
+                        <li>Men</li>
+                        <li>Women</li>
+                    </ul>
+                </li>
+                <li class="parent-item">
+                    Home & Kitchen
+                    <ul class="child-menu">
+                        <li>Furniture</li>
+                        <li>Appliances</li>
+                    </ul>
+                </li>
+                <li class="parent-item">
+                    Books
+                    <ul class="child-menu">
+                        <li>Fiction</li>
+                        <li>Non-Fiction</li>
+                    </ul>
+                </li>
+                <li class="parent-item">
+                    Beauty & Personal Care
+                    <ul class="child-menu">
+                        <li>Makeup</li>
+                        <li>Skincare</li>
+                    </ul>
+                </li>
+                <li class="parent-item">
+                    Sports
+                    <ul class="child-menu">
+                        <li>Cricket</li>
+                        <li>Football</li>
+                    </ul>
+                </li>
+                <li class="parent-item">
+                    Automotive
+                    <ul class="child-menu">
+                        <li>Car Accessories</li>
+                        <li>Bike Accessories</li>
+                    </ul>
+                </li>
+                <li class="parent-item">
+                    Toys & Games
+                    <ul class="child-menu">
+                        <li>Action Figures</li>
+                        <li>Board Games</li>
+                    </ul>
+                </li>
+                <li class="parent-item">
+                    Health & Wellness
+                    <ul class="child-menu">
+                        <li>Supplements</li>
+                        <li>Fitness Equipment</li>
+                    </ul>
+                </li>
+                <li class="parent-item">
+                    Groceries
+                    <ul class="child-menu">
+                        <li>Fruits & Vegetables</li>
+                        <li>Beverages</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <script>
+            // Function to position submenus dynamically
+            function positionSubMenu(parent, submenu, offset) {
+                const parentRect = parent.getBoundingClientRect();
+                submenu.style.top = `${parentRect.top}px`;
+                submenu.style.left = `${parentRect.left + offset}px`;
+                submenu.style.display = "block";
+            }
+
+            function hideSubMenu(submenu) {
+                submenu.style.display = "none";
+            }
+
+            // Attach event listeners for child menus
+            document.querySelectorAll(".parent-item").forEach((parent) => {
+                const childMenu = parent.querySelector(".child-menu");
+
+                if (childMenu) {
+                    parent.addEventListener("mouseenter", () => {
+                        positionSubMenu(parent, childMenu, 200);
+                    });
+
+                    parent.addEventListener("mouseleave", () => {
+                        hideSubMenu(childMenu);
+                    });
+                }
+            });
+
+            // Attach event listeners for grandchild menus
+            document.querySelectorAll(".child-item").forEach((child) => {
+                const grandChildMenu = child.querySelector(".grandchild-menu");
+
+                if (grandChildMenu) {
+                    child.addEventListener("mouseenter", () => {
+                        positionSubMenu(child, grandChildMenu, 200);
+                    });
+
+                    child.addEventListener("mouseleave", () => {
+                        hideSubMenu(grandChildMenu);
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
